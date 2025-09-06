@@ -2,7 +2,7 @@ import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
 
-const PROCESS_LOG_FILE = '/tmp/.kubiks-processes.json';
+const PROCESS_LOG_FILE = '/tmp/.bug0-processes.json';
 
 export interface ProcessInfo {
   projectId: number;
@@ -57,7 +57,7 @@ export function formatUptime(startedAt: string): string {
 
 export function getLogFilePaths(projectId: number, processId: number): { stdout: string; stderr: string } {
   // Use global /tmp directory to ensure predictable ephemeral location
-  const logDir = join('/tmp', 'kubiks-logs');
+  const logDir = join('/tmp', 'bug0-logs');
   return {
     stdout: join(logDir, `project-${projectId}-${processId}-stdout.log`),
     stderr: join(logDir, `project-${projectId}-${processId}-stderr.log`),

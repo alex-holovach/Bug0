@@ -1,6 +1,7 @@
 import 'dotenv/config';
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/libsql';
+import { createClient } from '@libsql/client';
+import { migrate } from 'drizzle-orm/libsql/migrator';
 import path from 'path';
 import fs from 'fs';
 
@@ -11,16 +12,49 @@ if (!fs.existsSync(binDir)) {
 }
 
 // Database file path in bin folder
-const dbPath = path.join(binDir, 'kubiks-local.db');
+const dbPath = path.join(binDir, 'bug0-local.db');
 
-// Create SQLite database connection
-const sqlite = new Database(dbPath);
-
-// Improve SQLite concurrency and reliability
-sqlite.pragma('journal_mode = WAL');
-sqlite.pragma('synchronous = NORMAL');
-sqlite.pragma('busy_timeout = 5000');
-sqlite.pragma('foreign_keys = ON');
+// Create LibSQL client
+const client = createClient({
+  url: `file:${dbPath}`,
+});
 
 // Create Drizzle instance
-export const db = drizzle(sqlite);
+const db = drizzle(client);
+
+// Function to check if tables exist and run migrations if needed
+async function ensureTablesExist() {
+  try {
+    // Check if the projects table exists (using it as a representative table)
+    const result = await client.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='projects'");
+
+    if (result.rows.length === 0) {
+      console.log('Database tables not found. Running migrations...');
+
+      // Check if migrations folder exists
+      const migrationsFolder = './drizzle';
+      if (fs.existsSync(migrationsFolder)) {
+        const migrationFiles = fs.readdirSync(migrationsFolder)
+          .filter(file => file.endsWith('.sql') && !file.includes('meta'));
+
+        if (migrationFiles.length > 0) {
+          console.log(`Running ${migrationFiles.length} migration(s)...`);
+          await migrate(db, { migrationsFolder });
+          console.log('✅ Database migrations completed successfully!');
+        } else {
+          console.warn('No migration files found in drizzle folder');
+        }
+      } else {
+        console.warn('Migrations folder not found. Please run "npm run db:generate" first.');
+      }
+    }
+  } catch (error) {
+    console.error('Error checking/running migrations:', error);
+    // Don't throw - let the app continue, but log the error
+  }
+}
+
+// Run migration check on initialization
+ensureTablesExist();
+
+export { db };

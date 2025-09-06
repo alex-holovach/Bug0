@@ -12,7 +12,7 @@ import { killProcessTreeAction, getDescendantPidsAction } from './process-tree';
 import { getPortsByPidAction } from './process-ports';
 
 // Store process info in a simple JSON file for persistence across restarts
-const PROCESS_LOG_FILE = '/tmp/.kubiks-processes.json';
+const PROCESS_LOG_FILE = '/tmp/.bug0-processes.json';
 
 function saveProcesses(processes: Record<number, any>) {
   writeFileSync(PROCESS_LOG_FILE, JSON.stringify(processes, null, 2));
@@ -65,7 +65,7 @@ export async function startProjectAction(projectId: number) {
     };
 
     // Prepare combined log file under /tmp
-    const logDir = join('/tmp', 'kubiks-logs');
+    const logDir = join('/tmp', 'bug0-logs');
     try {
       mkdirSync(logDir, { recursive: true });
     } catch { }

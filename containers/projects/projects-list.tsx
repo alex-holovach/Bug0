@@ -8,6 +8,8 @@ import { useProjects } from "@/hooks/use-projects";
 import { useProjectProcesses } from "@/hooks/use-project-processes";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getProjectServerProcessAction } from "@/actions/project-processes";
+import { setProjectCookiesAction } from "@/actions/projects";
 
 export function ProjectsList() {
   const { projects, isLoading, error } = useProjects();
@@ -27,7 +29,27 @@ export function ProjectsList() {
     cleanupProcesses();
   }, [cleanupProcesses]);
 
-  const handleCardClick = (projectId: number) => {
+  const handleCardClick = async (projectId: number) => {
+    try {
+      // Get project server info to find the running port
+      const serverInfo = await getProjectServerProcessAction(projectId);
+
+      // If project is running and has ports, set both cookies
+      if (serverInfo.success && serverInfo.ports.length > 0) {
+        const firstPort = serverInfo.ports.find((port: any) => port.state === 'LISTEN');
+        if (firstPort) {
+          const projectUrl = `http://localhost:${firstPort.port}`;
+          await setProjectCookiesAction(projectUrl, projectId);
+        }
+      } else {
+        // Even if no ports are running, set the project ID cookie
+        await setProjectCookiesAction('', projectId);
+      }
+    } catch (error) {
+      console.warn('Failed to set project cookies:', error);
+    }
+
+    // Navigate to project page
     router.push(`/projects/${projectId}`);
   };
 

@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { streamObject } from 'ai';
 import { systemPrompt } from '@/lib/chat/ai/prompts';
 import { createDocumentHandler } from '@/lib/chat/artifacts/server';
-import { openrouter } from '@/lib/chat/ai/models';
+import { model } from '@/lib/chat/ai/models';
 
 export const codeDocumentHandler = createDocumentHandler<'code'>({
   kind: 'code',
@@ -10,7 +10,7 @@ export const codeDocumentHandler = createDocumentHandler<'code'>({
     let draftContent = '';
 
     const { fullStream } = streamObject({
-      model: openrouter,
+      model: model,
       system: systemPrompt(),
       prompt: title,
       schema: z.object({
@@ -43,7 +43,7 @@ export const codeDocumentHandler = createDocumentHandler<'code'>({
     let draftContent = '';
 
     const { fullStream } = streamObject({
-      model: openrouter,
+      model: model,
       system: systemPrompt(),
       prompt: description,
       schema: z.object({

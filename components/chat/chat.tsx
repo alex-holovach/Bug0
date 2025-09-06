@@ -25,21 +25,26 @@ import { ChatSDKError } from '@/lib/chat/errors';
 import type { Attachment, ChatMessage } from '@/lib/chat/types';
 import { useDataStream } from './data-stream-provider';
 import { PageHeaderWithTitle } from '@/containers/page-header';
-import { Bot } from 'lucide-react';
 import { ChatHistoryDrawer } from './chat-history-drawer';
 import { useRouter } from 'next/navigation';
+
+function getCookie(name: string): string | null {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  return null;
+}
 
 export function Chat({
   id,
   initialMessages,
-  initialChatModel,
   initialVisibilityType,
   isReadonly,
   autoResume,
 }: {
   id: string;
   initialMessages: ChatMessage[];
-  initialChatModel: string;
   initialVisibilityType: VisibilityType;
   isReadonly: boolean;
   autoResume: boolean;
@@ -125,6 +130,12 @@ export function Chat({
   const isArtifactVisible = useArtifactSelector(state => state.isVisible);
   const router = useRouter();
 
+  // Get current project ID from cookie with fallback to 1
+  const getCurrentProjectId = () => {
+    const projectIdCookie = getCookie('current-project-id');
+    return projectIdCookie ? parseInt(projectIdCookie, 10) : 1;
+  };
+
   useAutoResume({
     autoResume,
     initialMessages,
@@ -142,10 +153,7 @@ export function Chat({
           showHistoryButton={true}
           showPlusButton={true}
           onHistoryClick={() => setHistoryDrawerOpen(true)}
-          onPlusClick={() => router.push('/chat')}
-        // modelSelector={
-        //   <AvailableModelSelector selectedModelId={initialChatModel} />
-        // }
+          onPlusClick={() => router.push(`/projects/${getCurrentProjectId()}`)}
         >
         </PageHeaderWithTitle>
 

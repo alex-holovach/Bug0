@@ -10,9 +10,8 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { DatabaseIcon, XCircle } from 'lucide-react';
-import { Trace, TraceStatus } from '@/types/trace';
+import { Trace } from '@/types/trace';
 import { Skeleton } from '@/components/ui/skeleton';
-import CopyButton from '@/components/copy-button';
 
 interface TracesTableProps {
   traces: Trace[];

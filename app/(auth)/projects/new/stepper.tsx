@@ -212,8 +212,8 @@ export const NewProjectStepper: React.FC = () => {
             </Card>
           )}
 
-          <div className="flex w-full justify-center gap-3 tracking-tight">
-            {currentStep === 'details' && (
+          {currentStep === 'details' && (
+            <div className="flex justify-between w-[600px] max-w-2xl mt-4">
               <Button
                 onClick={() => setCurrentStep('path')}
                 variant="outline"
@@ -222,21 +222,17 @@ export const NewProjectStepper: React.FC = () => {
                 <ChevronLeft size={20} />
                 Back
               </Button>
-            )}
-            <div className="flex gap-3 ml-auto">
-              {currentStep === 'details' && (
-                <Button
-                  onClick={handleCreateProject}
-                  className="flex gap-2 transition-all ease-in-out hover:gap-4"
-                  variant="default"
-                  disabled={isCreating || !selectedFolder || !projectName || !runCommand || !gitInfo?.isGitRepo}
-                >
-                  {isCreating ? 'Creating...' : 'Create Project'}
-                  <Check size={20} />
-                </Button>
-              )}
+              <Button
+                onClick={handleCreateProject}
+                className="flex gap-2 transition-all ease-in-out hover:gap-4"
+                variant="default"
+                disabled={isCreating || !selectedFolder || !projectName || !runCommand || !gitInfo?.isGitRepo}
+              >
+                {isCreating ? 'Creating...' : 'Create Project'}
+                <Check size={20} />
+              </Button>
             </div>
-          </div>
+          )}
         </div>
       </section>
     </div>

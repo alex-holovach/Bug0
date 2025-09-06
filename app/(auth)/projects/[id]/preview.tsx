@@ -8,8 +8,8 @@ import { Logs } from "@/containers/traces/logs";
 import { Explore } from "@/containers/project-files/explore";
 
 interface PreviewProps {
-  ports: any[];
-  projectId: number;
+  ports?: any[];
+  projectId?: number;
 }
 
 export default function Preview({ ports, projectId }: PreviewProps) {
@@ -19,11 +19,11 @@ export default function Preview({ ports, projectId }: PreviewProps) {
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [key, setKey] = useState(0); // For forcing iframe reload
   const [isMaximized, setIsMaximized] = useState(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('preview');
+  const [viewMode, setViewMode] = useState<ViewMode>('logs');
 
   // Initialize with the first port when ports are available
   useEffect(() => {
-    if (ports.length > 0) {
+    if (ports && ports.length > 0) {
       const initialUrl = `http://localhost:${ports[0].port}`;
       setUrl(initialUrl);
       setCurrentUrl(initialUrl);
@@ -73,16 +73,11 @@ export default function Preview({ ports, projectId }: PreviewProps) {
 
   const handleViewModeChange = (mode: ViewMode) => {
     setViewMode(mode);
-    // TODO: Implement mode switching logic
-    console.log('View mode changed to:', mode);
   };
 
   const handleSelectElement = () => {
-    // TODO: Implement element selector
-    console.log('Select element clicked');
   };
 
-  // Handle Escape key to exit maximized mode and manage body scroll
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isMaximized) {
@@ -127,17 +122,17 @@ export default function Preview({ ports, projectId }: PreviewProps) {
         />
 
         {/* Browser content */}
-        <div className="flex-1 min-h-0">
+        <div className="flex-1 min-h-0 overflow-y-scroll">
           {viewMode === 'traces' && (
             <TracesContent />
           )}
           {viewMode === 'logs' && (
-            <Logs projectId={projectId} />
+            <Logs projectId={projectId!} />
           )}
           {viewMode === 'code' && (
-            <Explore projectId={projectId} />
+            <Explore projectId={projectId!} />
           )}
-          {viewMode === 'preview' && ports.length > 0 && (
+          {viewMode === 'preview' && ports && ports.length > 0 && (
             <Browser
               url={currentUrl}
               className="border-0 rounded-none"

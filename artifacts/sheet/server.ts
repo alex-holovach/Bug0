@@ -3,7 +3,7 @@ import { createDocumentHandler } from '@/lib/chat/artifacts/server';
 import { streamObject } from 'ai';
 import { z } from 'zod';
 import { cookies } from 'next/headers';
-import { openrouter } from '@/lib/chat/ai/models';
+import { model } from '@/lib/chat/ai/models';
 
 export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
   kind: 'sheet',
@@ -11,7 +11,7 @@ export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
     let draftContent = '';
 
     const { fullStream } = streamObject({
-      model: openrouter,
+      model: model,
       system: systemPrompt(),
       prompt: title,
       schema: z.object({
@@ -50,7 +50,7 @@ export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
     let draftContent = '';
 
     const { fullStream } = streamObject({
-      model: openrouter,
+      model: model,
       system: systemPrompt(),
       prompt: description,
       schema: z.object({

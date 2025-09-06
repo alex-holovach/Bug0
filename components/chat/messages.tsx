@@ -39,6 +39,7 @@ function PureMessages({
   } = useMessages({
     chatId,
     status,
+    messages,
   });
 
   useDataStream();
@@ -46,7 +47,7 @@ function PureMessages({
   return (
     <div
       ref={messagesContainerRef}
-      className="flex flex-col min-w-0 flex-1 relative"
+      className="flex flex-col min-w-0 flex-1 mt-10 relative overflow-y-scroll"
     >
       <ToolActivity />
       {messages.length === 0 && <Greeting />}

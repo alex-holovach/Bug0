@@ -13,7 +13,7 @@ export const Greeting = () => {
         transition={{ delay: 0.5 }}
         className="text-2xl font-semibold"
       >
-        Just ship it.
+        Let's smash some 🪳
       </motion.div>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -22,7 +22,7 @@ export const Greeting = () => {
         transition={{ delay: 0.6 }}
         className="text-2xl text-zinc-500"
       >
-        What can I help you with?
+        Your bugs can run, but they can’t hide
       </motion.div>
     </div>
   );

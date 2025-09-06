@@ -5,7 +5,7 @@ import { otelTracesTable } from '@/db/schema';
 import { desc } from 'drizzle-orm';
 
 export const getSpans = async () => {
-  const traces = await db.select().from(otelTracesTable).orderBy(desc(otelTracesTable.timestamp)).limit(100);
+  const traces = await db.select().from(otelTracesTable).orderBy(desc(otelTracesTable.timestamp)).limit(1000);
 
   return traces.map(t => t.data);
 };

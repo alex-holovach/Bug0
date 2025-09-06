@@ -5,6 +5,7 @@ import { OTLPTracesRequest, OTLPResponse, keyValuesToObject } from '@/types/otel
 
 export async function POST(request: NextRequest) {
   try {
+    console.log('Received traces');
     // Parse the request body
     const contentType = request.headers.get('content-type');
     let body: OTLPTracesRequest;
@@ -111,7 +112,7 @@ export async function OPTIONS(request: NextRequest) {
     headers: {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, X-Kubiks-Key',
+      'Access-Control-Allow-Headers': 'Content-Type, X-Bug0-Key',
     },
   });
 }

@@ -10,7 +10,6 @@ export function RunProject({ chatId }: { chatId: string }) {
         variant="outline"
         className="flex items-center gap-2"
         onClick={() => {
-          // TODO: Add run project logic
           console.log('Run project clicked for chat:', chatId);
         }}
       >

@@ -6,9 +6,11 @@ import type { ChatMessage } from '@/lib/chat/types';
 export function useMessages({
   chatId,
   status,
+  messages,
 }: {
   chatId: string;
   status: UseChatHelpers<ChatMessage>['status'];
+  messages: ChatMessage[];
 }) {
   const {
     containerRef,
@@ -33,6 +35,13 @@ export function useMessages({
       setHasSentMessage(true);
     }
   }, [status]);
+
+  // Auto-scroll during streaming when messages change and user is at bottom
+  useEffect(() => {
+    if (status === 'streaming' && isAtBottom && messages.length > 0) {
+      scrollToBottom('smooth');
+    }
+  }, [messages, status, isAtBottom, scrollToBottom]);
 
   return {
     containerRef,

@@ -7,9 +7,7 @@ export async function getAvailableModelsAction() {
     const models = await getAvailableModels();
 
     const allowedModelIds = [
-      'openai/o4-mini',
-      'openai/gpt-5',
-      'anthropic/claude-4-sonnet',
+      'openai/gpt-oss-120b',
     ];
 
     const filteredModels = models.filter(model =>

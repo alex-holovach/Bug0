@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Kubiks Agent',
-  description: 'Kubiks Agent | Full Stack development platform',
+  title: 'Bug0 Agent',
+  description: 'Bug0 Agent | Full Stack development platform',
 };
 
 export default function RootLayout({

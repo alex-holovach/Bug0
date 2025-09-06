@@ -242,16 +242,6 @@ export const backgroundAgentLogsTable = sqliteTable('background_agent_logs', {
 
 export type BackgroundAgent = InferSelectModel<typeof backgroundAgentsTable>;
 
-export const openRouterApiKeysTable = sqliteTable('open_router_api_keys', {
-  id: text('id').primaryKey().notNull(),
-  organizationId: text('organizationId').notNull(),
-  apiKey: text('apiKey').notNull(),
-  usage: text('usage').notNull(),
-  hash: text('hash').notNull(),
-  createdAt: text('createdAt').notNull().default(sql`CURRENT_TIMESTAMP`),
-});
-
-export type OpenRouterApiKey = InferSelectModel<typeof openRouterApiKeysTable>;
 
 // Projects table
 export const projectsTable = sqliteTable('projects', {

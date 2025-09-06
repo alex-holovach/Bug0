@@ -42,6 +42,6 @@ next-env.d.ts
 .env*.local
 
 # local sqlite database
-bin/kubiks-local.db
-bin/kubiks-local.db-wal
-bin/kubiks-local.db-shm
+bin/bug0-local.db
+bin/bug0-local.db-wal
+bin/bug0-local.db-shm

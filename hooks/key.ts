@@ -18,4 +18,5 @@ export const SWRKeys = {
   sandboxProcesses: (chatId: string) => `sandbox-processes-${chatId}`,
   gitInfo: (folderPath: string) => `git-info-${folderPath}`,
   nextjsProjectInfo: (projectPath: string) => `nextjs-project-info-${projectPath}`,
+  screenshot: 'screenshot',
 };

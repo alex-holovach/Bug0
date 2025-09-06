@@ -23,51 +23,9 @@ interface ModelOptions {
 }
 
 export function getModelOptions(modelId: string): any {
-  return {
-    providerOptions: {
-      openai: {
-        include: ['reasoning.encrypted_content'],
-        reasoningEffort: 'low',
-        reasoningSummary: 'detailed',
-      } satisfies OpenAIResponsesProviderOptions,
-    },
-  };
-
-  if (modelId === 'openai/o4-mini') {
+  if (modelId === 'openai/gpt-oss-120b') {
     return {
       model: modelId,
-      providerOptions: {
-        openai: {
-          reasoningEffort: 'low',
-          reasoningSummary: 'detailed',
-        } satisfies OpenAIResponsesProviderOptions,
-      },
-    };
-  }
-
-  if (modelId === 'openai/gpt-5') {
-    return {
-      model: modelId,
-      providerOptions: {
-        openai: {
-          include: ['reasoning.encrypted_content'],
-          reasoningEffort: 'low',
-          reasoningSummary: 'detailed',
-        } satisfies OpenAIResponsesProviderOptions,
-      },
-    };
-  }
-
-  if (modelId === 'anthropic/claude-4-sonnet') {
-    return {
-      model: modelId,
-      headers: { 'anthropic-beta': 'fine-grained-tool-streaming-2025-05-14' },
-      providerOptions: {
-        // gateway: { order: ["bedrock", "vertex"] },
-        anthropic: {
-          cacheControl: { type: 'ephemeral' },
-        },
-      },
     };
   }
 

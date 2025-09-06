@@ -116,6 +116,79 @@ const PurePreviewMessage = ({
                 );
               }
 
+              // Handle AI SDK tool calls and results - they start with 'tool-' prefix
+              if (type?.startsWith('tool-')) {
+                const { input, output, state } = part as any;
+
+                // Check if this tool has output available
+                if (state === 'output-available' && output) {
+                  const toolName = type.replace('tool-', ''); // Extract tool name from type
+
+                  // Special handling for takeScreenshot results
+                  if (toolName === 'takeScreenshot' && output?.success && output?.screenshotId) {
+                    return (
+                      <div key={key} className="flex flex-col gap-2 p-3 rounded-lg border bg-muted/50 max-w-fit">
+                        <div className="text-sm font-mono">📸 Screenshot taken</div>
+                        <img
+                          src={`/api/screenshots/${output.screenshotId}`}
+                          alt="Screenshot"
+                          className="max-w-md rounded border"
+                          onError={(e) => {
+                            console.error('Failed to load screenshot:', output.screenshotId);
+                          }}
+                        />
+                        <div className="text-xs text-muted-foreground">
+                          Screenshot ID: {output.screenshotId}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Generic tool result display
+                  return (
+                    <div key={key} className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border bg-muted/50 text-sm font-mono max-w-fit">
+                      ✅ {toolName} completed
+                    </div>
+                  );
+                }
+
+                // Tool calls (not results)
+                const toolName = type.replace('tool-', ''); // Extract tool name from type
+
+                // Format tool name (camelCase to readable, handle acronyms)
+                const formattedName = toolName
+                  .replace(/([a-z])([A-Z])/g, '$1 $2') // Only add space between lowercase and uppercase
+                  .replace(/^./, str => str.toUpperCase());
+
+                // Special handling for clickElement to show selector
+                if (toolName === 'clickElement' && input?.selector) {
+                  return (
+                    <div key={key} className="inline-flex flex-col gap-1 px-3 py-2 rounded-lg border bg-muted/50 text-sm font-mono max-w-fit">
+                      <div>🔧 {formattedName}</div>
+                      <div className="text-xs text-muted-foreground">"{input.selector}"</div>
+                    </div>
+                  );
+                }
+
+                // Special handling for takeScreenshot to show screenshot
+                if (toolName === 'takeScreenshot') {
+                  return (
+                    <div key={key} className="inline-flex flex-col gap-2 px-3 py-2 rounded-lg border bg-muted/50 text-sm font-mono max-w-fit">
+                      <div>📸 {formattedName}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {input?.fullPage ? 'Full page screenshot' : 'Viewport screenshot'}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div key={key} className="inline-flex items-center gap-2 px-3 py-2 rounded-lg border bg-muted/50 text-sm font-mono max-w-fit">
+                    🔧 {formattedName}
+                  </div>
+                );
+              }
+
               if (type === 'text') {
                 if (mode === 'view') {
                   return (

@@ -5,8 +5,8 @@ import path from 'path';
 export default defineConfig({
   out: './drizzle',
   schema: './db/schema.ts',
-  dialect: 'sqlite',
+  dialect: 'turso',
   dbCredentials: {
-    url: path.join(process.cwd(), 'bin', 'kubiks-local.db'),
+    url: `file:${path.join(process.cwd(), 'bin', 'bug0-local.db')}`,
   },
 });

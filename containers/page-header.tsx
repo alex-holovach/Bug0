@@ -66,6 +66,7 @@ export function PageHeaderWithTitle({
             <span className="sr-only">New chat</span>
           </Button>
         )}
+
         {(showSidebarTrigger || showHistoryButton || showPlusButton) && (
           <Separator orientation="vertical" className="h-4" />
         )}

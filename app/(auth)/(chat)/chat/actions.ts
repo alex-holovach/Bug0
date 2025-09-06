@@ -8,7 +8,7 @@ import {
   updateChatVisiblityById,
 } from '@/lib/chat/db/queries';
 import type { VisibilityType } from '@/components/chat/visibility-selector';
-import { openrouter } from '@/lib/chat/ai/models';
+import { model } from '@/lib/chat/ai/models';
 import { ChatSDKError } from '@/lib/chat/errors';
 
 export async function saveChatModelAsCookie(model: string) {
@@ -23,7 +23,7 @@ export async function generateTitleFromUserMessage({
 }) {
   try {
     const { text: title } = await generateText({
-      model: openrouter,
+      model: model,
       system: `\n
     - you will generate a short title based on the first message a user begins a conversation with
     - ensure it is not more than 80 characters long

@@ -16,7 +16,7 @@ async function runMigrations() {
     }
 
     // Database file path in bin folder
-    const dbPath = path.join(binDir, 'kubiks-local.db');
+    const dbPath = path.join(binDir, 'bug0-local.db');
 
     console.log(`Connecting to database at: ${dbPath}`);
 

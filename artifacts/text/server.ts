@@ -1,7 +1,7 @@
 import { smoothStream, streamText } from 'ai';
 import { createDocumentHandler } from '@/lib/chat/artifacts/server';
 import { systemPrompt } from '@/lib/chat/ai/prompts';
-import { openrouter } from '@/lib/chat/ai/models';
+import { model } from '@/lib/chat/ai/models';
 
 export const textDocumentHandler = createDocumentHandler<'text'>({
   kind: 'text',
@@ -9,7 +9,7 @@ export const textDocumentHandler = createDocumentHandler<'text'>({
     let draftContent = '';
 
     const { fullStream } = streamText({
-      model: openrouter,
+      model: model,
       system: systemPrompt(),
       experimental_transform: smoothStream({ chunking: 'word' }),
       prompt: title,
@@ -38,7 +38,7 @@ export const textDocumentHandler = createDocumentHandler<'text'>({
     let draftContent = '';
 
     const { fullStream } = streamText({
-      model: openrouter,
+      model: model,
       system: systemPrompt(),
       experimental_transform: smoothStream({ chunking: 'word' }),
       prompt: description,
